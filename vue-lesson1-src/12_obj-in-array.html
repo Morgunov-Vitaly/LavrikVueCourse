@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sample">
+            <button type="button" class="btn btn-primary" @click="addNumber">
+                Add number
+            </button>
+            <hr>
+            <ul class="list-group">
+                <li class="list-group-item" 
+                    v-for="(number, i) in numbers"
+                    @click="onDouble(i)"
+                >
+                    {{ i }} | {{ number.value }}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '.sample',
+            data: {
+                numbers: []
+            },
+            methods: {
+                addNumber(){
+                    let num = Math.floor(Math.random() * 100);
+                    
+                    this.numbers.push({
+                        value: num
+                    });
+                },
+                onDouble(i){
+                    this.numbers[i].value *= 2;
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

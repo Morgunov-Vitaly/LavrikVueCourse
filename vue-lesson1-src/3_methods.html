@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sample">
+            <div @click="someCounter++">{{ someCounter }}</div>
+            <input type="text" :value="firstName" @input="onInput">
+            <hr>
+            <input type="text" v-model="lastName">
+            <hr>
+            <h2>Hello, {{ fullName() }}</h2>
+        </div>
+    </div>
+    <script>
+        
+        let vm = new Vue({
+            el: '.sample',
+            data: {
+                someCounter: 0,
+                firstName: '',
+                lastName: ''
+            },
+            methods: {
+                onInput(e){
+                    // console.log('123')
+                    this.firstName = e.target.value;
+                },
+                fullName(){
+                    console.log(1);
+                    return this.firstName + ' ' + this.lastName;
+                }
+            }
+        });
+
+
+    </script>
+</body>
+</html>

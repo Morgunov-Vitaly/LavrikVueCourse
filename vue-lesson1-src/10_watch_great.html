@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sample">
+            <div class="alert alert-success">{{ price }}</div>
+            <div v-if="isSale">
+                <span>-{{ sale }}%</span>
+                <span>{{ total }}</span>
+            </div>
+            <hr>
+            <input type="text" v-model.lazy.trim="promo">
+            <button type="button" class="btn btn-danger" @click="promo = ''">
+                x
+            </button>
+        </div>
+    </div>
+    <script>
+        function getSale(promo, callback){
+            let codes = {
+                bigsale: 20,
+                some: 10
+            };
+
+            setTimeout(function(){
+                let sale = codes.hasOwnProperty(promo) ? codes[promo] : 0;
+                callback(sale);
+            }, 500);
+        };
+
+        let vm = new Vue({
+            el: '.sample',
+            data: {
+                price: 1000,
+                promo: '',
+                sale: 0
+            },
+            methods: {
+                
+            },
+            computed: {
+                isSale(){
+                    return this.sale > 0;
+                },
+                total(){
+                    return this.price * (1 - this.sale / 100);
+                }
+            },
+            watch: {
+                promo(){
+                    getSale(this.promo, (sale) => {
+                        this.sale = sale;
+                    });
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

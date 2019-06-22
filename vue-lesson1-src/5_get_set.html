@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sample">
+           
+        </div>
+    </div>
+    <script>
+        
+        let some = {
+            firstName: '1',
+            lastName: '2'
+        };
+
+        Object.defineProperty(some, 'fullName', {
+            get(){
+                return some.firstName + ' ' + some.lastName
+            }
+        });
+
+        console.log(some.fullName);
+
+        let other = {
+            fullName: '',
+            fn: '',
+            ln: ''
+        };
+
+        Object.defineProperty(other, 'firstName', {
+            set(val){
+                other.fn = val;
+                other.fullName = other.fn + ' ' + other.ln;
+            }
+        });
+
+        Object.defineProperty(other, 'lastName', {
+            set(val){
+                other.ln = val;
+                other.fullName = other.fn + ' ' + other.ln;
+            }
+        });
+
+    </script>
+</body>
+</html>
