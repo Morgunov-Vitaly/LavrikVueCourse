@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>1</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link href="css/styles.css" rel="stylesheet">
+	<script src="js/vue.js"></script>
+	<style>
+		.my-success{
+			font-style: italic;
+		}
+
+		.other-warning{
+			font-weight: bold;
+		}
+
+		.table-some{
+			color: #fff;
+			background: #000;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="sample">
+			<div class="alert" :class="alertClasses">
+				Some text
+			</div>
+			<div class="form-check">
+				<label class="form-check-label">
+					<input class="form-check-input" type="radio" 
+						   v-model="alertType" value="green"> 
+					Green
+				</label>
+				<label class="form-check-label">
+					<input class="form-check-input" type="radio" 
+						   v-model="alertType" value="red"> 
+					Red
+				</label>
+				<label class="form-check-label">
+					<input class="form-check-input" type="radio" 
+						   v-model="alertType" value="orange"> 
+					Orange
+				</label>
+			</div>
+			<hr>
+			<div class="form-check">
+				<div v-for="(box, key) in tableClasses">
+					<label class="form-check-label">
+						<input class="form-check-input" type="checkbox" v-model="tableClasses[key]">
+						{{ key }}
+					</label>
+				</div>
+			</div>
+			<hr>
+			<table class="table" :class="tableClasses">
+				<tr>
+					<td>Title</td>
+					<td>Some</td>
+					<td>nz</td>
+				</tr>
+				<tr>
+					<td>Title</td>
+					<td>Some</td>
+					<td>nz</td>
+				</tr>
+				<tr>
+					<td>Title</td>
+					<td>Some</td>
+					<td>nz</td>
+				</tr>
+			</table> 
+		</div>
+	</div>
+	<script>
+		/*
+			class="string"
+			:class="string"
+			:class="[classes]"
+			:class="{a: boolean, b: boolean}"
+			:class=[string, obj, string]
+		*/
+
+		let sample = new Vue({
+			el: '.sample',
+			data: {
+				alertType: 'green',
+				tableClasses: {
+					'table-bordered': false,
+					'table-hover': false,
+					'table-some': false
+				}
+			},
+			computed: {
+				alertClasses(){
+					return {
+						'alert-success': this.alertType === 'green',
+						'alert-danger': this.alertType === 'red',
+						'alert-warning': this.alertType === 'orange'
+					};
+				}
+			}
+		});
+	</script>
+</body>
+</html>
