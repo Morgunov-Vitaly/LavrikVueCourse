@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="sample">
+			<form action="">
+				<div class="alert-danger">{{ i }}</div>
+				<hr>
+			    <button class="btn btn-success" v-ael:click.prevent.once="onTest">
+				    Test
+				</button>
+			</form>
+		</div>
+	</div>
+	<script>
+		
+		Vue.directive('ael', {
+			bind(el, options){
+				let callback = function(e){
+					if(options.modifiers.prevent){
+						e.preventDefault();
+					}
+
+					if(options.modifiers.once){
+						el.removeEventListener(options.arg, callback);
+					}
+
+					options.value(e);
+				};
+
+				el.addEventListener(options.arg, callback);
+				//console.log(options);
+			}
+		});
+
+		new Vue({
+			el: '.sample',
+			data: {
+				i: 0
+			},
+			methods: {
+				onTest(){
+					this.i++;
+				}
+			}
+		});
+
+	</script>
+</body>
+</html>
