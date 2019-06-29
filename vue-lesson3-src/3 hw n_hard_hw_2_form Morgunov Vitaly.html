@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sample">
+            <form v-if="!isSended" @submit.prevent="isSended = true">
+                <progress-bar :max="maxItems" :current="qtyOfValid">                    
+                </progress-bar>
+                <universal-input-field v-for="(item, i) in info" 
+                :name="item.name" 
+                :value="item.value"
+                :pattern="item.pattern" 
+                :isvalid="itemState[i].isvalid" 
+                :isactivated="itemState[i].isactivated"
+                :key="i" @change="onChange(i, $event)">
+                </universal-input-field>
+                <button class="btn btn-primary" v-bind:disabled="!isAllcomplete">
+                    Send Data
+                </button>
+            </form>
+            <div v-else>
+                <table class="table table-bordered">
+                    <tr v-for="( item, key ) in info">
+                        <td>{{ key + 1 }} ) {{item.name}}</td>
+                        <td>{{item.value}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        Vue.component('progress-bar', {
+            template:`
+            <div class="progress">
+                    <div class="progress-bar" :aria-valuenow="current" aria-valuemin="0" :aria-valuemax="max" 
+                    :style="{ width: 100 * current / max + '%'}">
+                    </div>
+			</div>            
+            `,
+            props: ['max', 'current']
+        });
+        Vue.component('universal-input-field', {
+            template: `<div class="col-sm-12">
+                         <!-- хороший вопрос про формирование уникальных ключей где-бы почитать подробней -->
+                         <label class="col-sm-2 control-label" :for="name">{{name}}&nbsp<i v-if="isactivated"
+								class="fa" 
+								:class="isvalid ? 
+											'fa-check-circle text-success' : 
+											'fa-exclamation-circle text-danger'"
+                            >&nbsp;</i>
+                        </label>
+
+                        <div class="col-sm-10">
+                            <input :id="name" class="form-control" type="text" :value="value" @input="onInput">                        
+                        </div>
+                    </div>`,
+            props: [
+                'name',
+                'value',
+                'pattern',
+                'isvalid', //Валидно ли переданное value
+                'isactivated'  //Было ли активированно поле (осуществлена попытка ввода - отображать иконку или нет)  
+            ],           
+            methods:{
+                onInput(event){
+                    this.$emit('change', [
+                        event.target.value, // значение
+                        this.pattern.test(event.target.value), //валидность
+                        true //автивированность - считаем, что если поле изменилось, значит его "распечатали" - активизировали
+                    ]
+                    );
+                }
+            }
+        });
+
+        new Vue({
+            el: '.sample',
+            data: {
+                info: [
+                    {
+                        name: 'Name',
+                        value: '',
+                        pattern: /^[a-zA-Z ]{2,30}$/
+                    },
+                    {
+                        name: 'Phone',
+                        value: '',
+                        pattern: /^[0-9]{7,14}$/
+                    },
+                    {
+                        name: 'Email',
+                        value: '',
+                        pattern: /.+@/
+                    },
+                    {
+                        name: 'Some Field 1',
+                        value: '',
+                        pattern: /.+/
+                    },
+                    {
+                        name: 'Some Field 2',
+                        value: '',
+                        pattern: /.+/
+                    }
+                ],
+                itemState: [], // дополнительный массив состояний с полями активность и валидность для массива info
+                isSended: false // флаг нажатия кнопки отправки формы
+            },
+            computed:{
+                qtyOfValid(){
+                    return this.itemState.reduce(function(sum,current){
+                        if (current.isvalid) return sum + 1;
+                        return sum;
+                    }, 0);
+                },
+                maxItems(){                    
+                    return this.itemState.length;
+                },
+                isAllcomplete(){
+                    return  (100 * this.qtyOfValid / this.maxItems) >= '99.9' ? true : false;
+
+                }
+            },
+            methods:{
+                onChange(i, attr){ //кастомное событие кастомного элемента universal-input-field change
+                    //нужно изменить данные массивов itemState и info
+                    this.info[i].value= attr[0];
+                    this.itemState[i].isvalid = attr[1];
+                    this.itemState[i].isactivated = attr[2];
+                     
+                    //нужно изменить состояние прогрессбара и активность кнопки
+
+                }
+            },
+            created() {
+                return this.itemState = this.info.map(() => {
+                    return {
+                        isvalid: false, //Валидно ли переданное value
+                        isactivated: false //Было ли активированно поле (осуществлена попытка ввода - отображать иконку или нет) 
+                    }
+                });
+            }
+
+        });
+    </script>
+</body>
+
+</html>
