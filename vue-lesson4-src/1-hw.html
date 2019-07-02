@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="sample">
+			<form>
+				<div class="progress">
+					<div class="progress-bar" :style="progressWidth"></div>
+				</div>
+				<div>
+					<app-input v-for="(field, i) in info"
+								  :name="field.name"
+								  :value="field.value"
+								  :pattern="field.pattern"
+								  :key="i"
+								  @change="onInput(i, $event)"
+								  @valid="onValid(i, $event)"
+					></app-input>
+				</div>
+				<button class="btn btn-primary" :disabled="!formDone">
+					Send Data
+				</button>
+			</form>
+			<div>
+				<table class="table table-bordered">
+					<tr>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script>
+		Vue.component('app-input', {
+			props: {
+				pattern: RegExp, 
+				name: String,
+				value: String
+			},
+			data(){
+				return {
+					activated: false
+				}
+			},
+			computed: {
+				valid(){
+					return this.pattern.test(this.value);
+				},
+				iconClasses(){
+					return this.valid ? 
+								'fa-check-circle text-success' : 
+								'fa-exclamation-circle text-danger';
+				}
+			},
+			methods: {
+				onInput(e){
+					this.activated = true;
+
+					this.$emit('change', {
+						value: e.target.value
+					});
+				},
+				onValidChange(){
+					this.$emit('valid', {
+						valid: this.valid
+					});
+				}
+			},
+			watch: {
+				valid(){
+					this.onValidChange();
+				}
+			},
+			template: `
+				<div class="form-group">
+					<label>
+						{{ name }}
+						<i v-if="activated" class="fa" :class="iconClasses">&nbsp;</i>
+					</label>
+					<input type="text"
+							 class="form-control" 
+							 :value="value"
+							 @input="onInput"
+					>
+				</div>
+			`
+		});
+		
+		new Vue({
+			el: '.sample',
+			data: {
+				info: [
+					{
+						name: 'Name',
+						value: 'Dmitry',
+						pattern: /^[a-zA-Z ]{2,30}$/,
+					},
+					{
+						name: 'Phone',
+						value: '',
+						pattern: /^[0-9]{7,14}$/,
+					},
+					{
+						name: 'Email',
+						value: '',
+						pattern: /.+/,
+					},
+					{
+						name: 'Some Field 1',
+						value: '',
+						pattern: /.+/,
+					},
+					{
+						name: 'Some Field 2',
+						value: '',
+						pattern: /.+/,
+					}
+				]
+			},
+			created(){
+				this.info.map((field) => {
+					this.$set(field, 'valid', false);
+				});
+			},
+			methods: {
+				onInput(i, e){
+					this.info[i].value  = e.value.trim();
+				},
+				onValid(i, e){
+					this.info[i].valid  = e.valid;
+				}
+			},
+			computed: {
+				fieldsValid(){
+					return this.info.reduce((t, f) => t + (f.valid ? 1 : 0), 0)
+				},
+				formDone(){
+					return this.fieldsValid === this.info.length;
+				},
+				progressWidth(){
+					return {
+						width: this.fieldsValid / this.info.length * 100 + '%'
+					}
+				}
+			}
+		});
+	</script>
+</body>
+</html>
