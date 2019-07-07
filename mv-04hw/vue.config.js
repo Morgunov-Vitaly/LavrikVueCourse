@@ -7,7 +7,10 @@ let config = {
 		return {
 			
 		};
-	}	
+	},
+	transpileDependencies: [
+    /\bvue-awesome\b/
+  ]
 };
 
 module.exports = config;
