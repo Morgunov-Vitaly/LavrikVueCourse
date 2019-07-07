@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div class="wrapper">
+<div class="sample">
+	<app-modal title="Some alert!">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur molestiae, sunt facere iure in, consectetur reiciendis assumenda magni molestias sed vel a dolores nihil, expedita unde tempora iste error nemo. Iusto in nisi vero, omnis, asperiores blanditiis commodi alias, id accusantium laborum et, quibusdam harum eveniet voluptas doloribus expedita eos.</p>
+		<p>Count {{ i }}</p>
+		<button class="btn btn-danger" slot="controls">
+			Close
+		</button>
+		<button class="btn btn-success" @click="onClick" slot="controls">
+			Plus one
+		</button>
+	</app-modal>
+	<app-modal title="Other alert!">
+		<div class="alert alert-success">
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur molestiae, sunt facere iure in, consectetur reiciendis assumenda magni molestias sed vel a dolores nihil, expedita unde tempora iste error nemo. Iusto in nisi vero, omnis, asperiores blanditiis commodi alias, id accusantium laborum et, quibusdam harum eveniet voluptas doloribus expedita eos.</p>
+		</div>
+		<p>123</p>
+	</app-modal>
+</div>
+</div>
+<script>
+
+Vue.component('app-modal', {
+	template: `
+		<div>
+			<div>{{ title }}</div>
+			<hr>
+			<div class="content">
+				<slot></slot>
+			</div>
+			<hr>
+			<div class="controls">
+				<slot name="controls"></slot>
+			</div>
+		</div>
+	`,
+	props: {
+		title: String
+	}
+});
+
+
+new Vue({
+	el: '.sample',
+	data: {
+		i: 1
+	},
+	methods: {
+		onClick(){
+			this.i++;
+		}
+	}
+});
+</script>
+</body>
+</html>

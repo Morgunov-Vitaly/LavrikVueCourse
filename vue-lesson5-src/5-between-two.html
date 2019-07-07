@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+    <style>
+    	.sample{
+    		overflow: hidden;
+    	}
+
+    	.slide-enter-active{
+    		animation: slideInLeft 0.5s;
+    	}
+
+    	.slide-leave-active{
+    		animation: slideOutRight 0.5s;
+    	}
+
+		@keyframes slideInLeft{
+			from{opacity: 0; transform: translateX(-100vw);}
+			to{opacity: 1; transform: translateX(0vw);}
+		}
+
+		@keyframes slideOutRight{
+			from{opacity: 1; transform: translateX(0vw);}
+			to{opacity: 0; transform: translateX(100vw);}
+		}
+
+    </style>	
+</head>
+<body>
+<div class="wrapper">
+	<div class="sample">
+		<button class="btn btn-primary" @click="showAlert = !showAlert">Toggle</button>
+		<hr>
+		<transition name="slide" mode="out-in">
+			<div class="alert alert-success" v-if="showAlert">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur molestiae, sunt facere iure in, consectetur reiciendis assumenda magni molestias sed vel a dolores nihil, expedita unde tempora iste error nemo. Iusto in nisi vero, omnis, asperiores blanditiis commodi alias, id accusantium laborum et, quibusdam harum eveniet voluptas doloribus expedita eos.</p>
+			</div>
+			<h2 class="alert alert-warning" v-else>
+				Hi theme
+			</div>
+		</transition>
+	</div>
+</div>
+<script>
+	new Vue({
+		el: '.sample',
+		data: {
+			showAlert: true
+		}
+	});
+</script>
+</body>
+</html>

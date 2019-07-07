@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+    <style>
+    	.sample{
+    		overflow: hidden;
+    	}
+
+    	.slide-enter-active{
+    		animation: slideInLeft 0.5s;
+    	}
+
+    	.slide-leave-active{
+    		animation: slideOutRight 0.5s;
+    	}
+
+		@keyframes slideInLeft{
+			from{opacity: 0; transform: translateX(-100vw);}
+			to{opacity: 1; transform: translateX(0vw);}
+		}
+
+		@keyframes slideOutRight{
+			from{opacity: 1; transform: translateX(0vw);}
+			to{opacity: 0; transform: translateX(100vw);}
+		}
+
+    </style>	
+</head>
+<body>
+<div class="wrapper">
+	<div class="sample">
+		<button class="btn btn-primary" @click="add">Add</button>
+		<hr>
+		<transition-group tag="ul" class="list-group" name="slide">
+			<li class="list-group-item" 
+				 v-for="(number, i) in numbers"
+				 :key="number"
+				 @dblclick="remove(i)"
+			>
+				{{ number }}
+			</li>
+		</transition-group>
+	</div>
+</div>
+<script>
+	new Vue({
+		el: '.sample',
+		data: {
+			numbers: []
+		},
+		methods: {
+			add(){
+				this.numbers.push(Math.random());
+			},
+			remove(i){
+				this.numbers.splice(i, 1);
+			}
+		}
+	});
+</script>
+</body>
+</html>
