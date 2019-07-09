@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<form>
+		<form @submit.prevent="isSended = true">
 			<b-progress :value="fieldsValid" :max="info.length"></b-progress>
 			<div>
 				<app-input v-for="(field, i) in info"
@@ -37,6 +37,7 @@
 		},
 		data(){
 			return {
+				isSended: false,
 				info: [
 					{
 						name: 'Name',

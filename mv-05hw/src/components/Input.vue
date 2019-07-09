@@ -4,11 +4,13 @@
       {{ name }}
       <transition
         name="icon-behavior"
-        enter-active-class="animated flipInX"
-        leave-active-class="animated flipOutX"
-		v-on:after-enter="afterEnter"
+        enter-active-class="animated flipInY"
+        leave-active-class="animated flipOutY"
+        appear-active-class="animated flipInX"
+        appear
+        mode="out-in"	
       >
-        <app-icon v-if="activated" :name="iconName" :class="iconClasses" />
+        <app-icon v-if="activated" :name="iconName" :class="iconClasses" :key="iconName" />
       </transition>
     </label>
     <input type="text" class="form-control" :value="value" @input="onInput" />
@@ -31,8 +33,8 @@ export default {
   },
   data() {
     return {
-      activated: false,
-      isAfterEnter: false
+      activated: false
+      
     };
   },
   created() {
@@ -49,8 +51,7 @@ export default {
       return this.valid ? "check-circle" : "exclamation-circle";
     },
     iconClasses() {
-		if (this.isAfterEnter) return this.valid ? "text-success animated flipInY" : "text-danger animated flipInX";
-      return this.valid ? "text-success" : "text-danger";
+    return this.valid ? "text-success" : "text-danger";
     }
   },
   methods: {
@@ -65,10 +66,7 @@ export default {
       this.$emit("valid", {
         valid: this.valid
       });
-	},
-	afterEnter(){
-		this.isAfterEnter = true;
-	}
+	  }
   },
   watch: {
     valid(newVal, oldVal) {
