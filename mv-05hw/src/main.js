@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
+import { ModalPlugin } from 'bootstrap-vue'
+Vue.use(ModalPlugin)
 
 Vue.config.productionTip = false
 
