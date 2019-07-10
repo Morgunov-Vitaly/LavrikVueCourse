@@ -5,31 +5,72 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		price: 1000,
-		cnt: 1
+		products:[
+			{
+				id: 1,
+				name: 'apples',
+				price: 100,
+				cnt: 1
+			},
+			{
+				id: 2,
+				name: 'pears',
+				price: 150,
+				cnt: 2
+			},
+			{
+				id: 3,
+				name: 'bananas',
+				price: 60,
+				cnt: 3
+			}
+		]		
 	},
 	getters: {
 		total(state){
-			return state.price * state.cnt;
+			let productsTotal = [];
+			productsTotal = state.products.map((product) =>{				
+				return {
+						'id':product.id,
+						'name':product.name,
+						'sum':product.price * product.cnt
+					}
+			});
+			return productsTotal;
 		}
 	},
 	mutations: {
-		plus(state){
-			state.cnt++;
+		plus(state, id){			
+			state.products.forEach(function(product){
+				if(product.id === id){
+					product.cnt++;
+				}				
+			});			
 		},
-		minus(state){
-			if(state.cnt > 1){
-				state.cnt--;
-			}
+		minus(state, id){
+			state.products.forEach(function(product){
+				if(product.id === id){
+					if(product.cnt >= 0){
+						product.cnt--;
+					}
+				}
+
+			});
 		},
-		setCnt(state, val){
+		setCnt(state, id, val){
 			let cnt = parseInt(val);
 
-			if(isNaN(cnt) || cnt < 1){
-				cnt = 1;
+			if(isNaN(cnt) || cnt < 0){
+				cnt = 0;
 			}
+			state.products.forEach(function(product){
+				if(product.id === id){
+					if(product.cnt >= 0){
+						product.cnt = cnt;
+					}
+				}
 
-			state.cnt = cnt;
+			});			
 		}
 	},
 	/*

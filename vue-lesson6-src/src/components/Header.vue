@@ -20,3 +20,8 @@
 		}
 	}
 </script>
+<style scoped>
+header{
+	background-color: rgb(185, 236, 245);
+}
+</style>

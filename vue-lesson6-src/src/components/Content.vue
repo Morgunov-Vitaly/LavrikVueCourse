@@ -19,3 +19,8 @@
 		}
 	}
 </script>
+<style scoped>
+section{
+	background-color: #fafafa;
+}
+</style>

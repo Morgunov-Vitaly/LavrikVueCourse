@@ -1,7 +1,12 @@
 <template>
 	<div>
-		In Cart: {{ cnt }}<br>
-		Total: {{ total }}
+		<ul>
+			<li v-for="product, i in products" v-if="product.cnt > 0" >
+				In Cart: {{ product.cnt }} {{product.name}}<br>
+				Total: {{ total[i].sum }}
+			</li>
+		</ul>
+
 	</div>
 </template>
 
@@ -10,7 +15,7 @@
 
 	export default {
 		computed: {
-			...mapState(['cnt']),
+			...mapState(['products']),
 			...mapGetters(['total'])
 		}
 	}
