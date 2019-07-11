@@ -57,21 +57,22 @@ export default new Vuex.Store({
 
 			});
 		},
-		setCnt(state, id, val){
-			let cnt = parseInt(val);
-
+		setCnt(state, attr){
+			console.log( attr ); /* почему-то не получалось передавать несколько параметров
+			 в виде setCnt(state, id, val), передавался только один параметр */
+			let cnt = parseInt(attr.val);
+			let id = attr.id;
 			if(isNaN(cnt) || cnt < 0){
 				cnt = 0;
 			}
 			state.products.forEach(function(product){
+				//console.log('product.id' + product.id + 'id' + id + 'cnt' + cnt);
 				if(product.id === id){
-					if(product.cnt >= 0){
-						product.cnt = cnt;
-					}
+					product.cnt = cnt;
 				}
 
 			});			
-		}
+		},
 	},
 	/*
 	actions: {

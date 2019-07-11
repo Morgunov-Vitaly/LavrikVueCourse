@@ -6,7 +6,7 @@
 			<button class="btn btn-warning" @click="minus(product.id)">
 				-1
 			</button>
-			<input type="text" :value="product.cnt" @change="onInput($event, product.id)">
+			<input type="text" :value="product.cnt" @change="onInput(product.id, $event)">
 			<button class="btn btn-success" @click="plus(product.id)">
 				+1
 			</button>
@@ -22,10 +22,10 @@
 		computed: mapState({products: 'products'}),
 		methods: {
 			...mapMutations(['minus', 'plus', 'setCnt']),
-			onInput(e, id){
-				console.log('id' + id);
+			onInput(id, e){
 				let val = e.target.value.trim();
-				this.setCnt(val, id);
+				//console.log('input id ' + id + 'input val ' + val);
+				this.setCnt({'val': val, 'id': id});
 			}
 		}
 	}
