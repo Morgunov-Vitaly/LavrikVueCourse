@@ -28,7 +28,7 @@ export default {
 		all(state){
 			return state.items;
 		},
-		_map(state){
+		_map(state){ //вспомогательный журнал индексов для ускорения работы хочется пояснений по его реактивности
 			let map = {};
 
 			state.items.forEach((product, i) => {

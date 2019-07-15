@@ -34,9 +34,13 @@ let routes = [
 		path: '/order',
 		component: Checkout
 	},
+	{	name:'404page',
+		path: '/404',
+		component: E404
+	},
 	{
 		path: '*',
-		component: E404
+		redirect: '/404'
 	}
 ];
 
